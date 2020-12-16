@@ -7,7 +7,7 @@ from PIL import Image
 from torchvision.transforms import (
     Resize, Compose, ToTensor, Normalize, ColorJitter, RandomHorizontalFlip
 )
-
+from ..utils.augumentation import SSD_PhotometricDistort
 
 class Random2DTranslation(object):
     """Randomly translates the input image with a probability.
@@ -317,6 +317,56 @@ def build_transforms(
     print('+ to torch tensor of range [0, 1]')
     print('+ normalization (mean={}, std={})'.format(norm_mean, norm_std))
 
+    transform_te = Compose([
+        Resize((height, width)),
+        ToTensor(),
+        normalize,
+    ])
+
+    return transform_tr, transform_te
+
+def build_SSDAugment_transforms(height, width, norm_mean=[0.485, 0.456, 0.406],
+                     norm_std=[0.229, 0.224, 0.225], **kwargs):
+    """Builds train and test transform functions.
+
+    Args:
+        height (int): target image height.
+        width (int): target image width.
+        transforms (str or list of str, optional): transformations applied to model training.
+            Default is 'random_flip'.
+        norm_mean (list or None, optional): normalization mean values. Default is ImageNet means.
+        norm_std (list or None, optional): normalization standard deviation values. Default is
+            ImageNet standard deviation values.
+    """
+    print("use build_SSDAugment_transforms")
+    # import time
+    # time.sleep(10)
+
+    if norm_mean is None or norm_std is None:
+        norm_mean = [0.485, 0.456, 0.406]  # imagenet mean
+        norm_std = [0.229, 0.224, 0.225]  # imagenet std
+    normalize = Normalize(mean=norm_mean, std=norm_std)
+
+    print('Building train transforms ...')
+    transform_tr = []
+    transform_tr += [Resize((height, width))]
+    print('+ resize to {}x{}'.format(height, width))
+    transform_tr += [RandomHorizontalFlip()]
+    transform_tr += [Random2DTranslation(height, width)]
+    transform_tr += [RandomPatch()]
+    transform_tr += [SSD_PhotometricDistort()]
+
+    print('+ to torch tensor of range [0, 1]')
+    transform_tr += [ToTensor()]
+    print('+ normalization (mean={}, std={})'.format(norm_mean, norm_std))
+    transform_tr += [normalize]
+    transform_tr += [RandomErasing()]
+    transform_tr = Compose(transform_tr)
+
+    print('Building test transforms ...')
+    print('+ resize to {}x{}'.format(height, width))
+    print('+ to torch tensor of range [0, 1]')
+    print('+ normalization (mean={}, std={})'.format(norm_mean, norm_std))
     transform_te = Compose([
         Resize((height, width)),
         ToTensor(),

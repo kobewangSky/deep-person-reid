@@ -3,7 +3,7 @@ import torch
 
 from torchreid.data.sampler import build_train_sampler
 from torchreid.data.datasets import init_image_dataset, init_video_dataset
-from torchreid.data.transforms import build_transforms
+from torchreid.data.transforms import build_transforms, build_SSDAugment_transforms
 
 
 class DataManager(object):
@@ -50,7 +50,7 @@ class DataManager(object):
         if isinstance(self.targets, str):
             self.targets = [self.targets]
 
-        self.transform_tr, self.transform_te = build_transforms(
+        self.transform_tr, self.transform_te = build_SSDAugment_transforms(
             self.height,
             self.width,
             transforms=transforms,

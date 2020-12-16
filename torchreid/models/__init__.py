@@ -66,6 +66,8 @@ __model_factory = {
     'pcb_p6': pcb_p6,
     'pcb_p4': pcb_p4,
     'mlfn': mlfn,
+    'osnet_x1_5': osnet_x1_5,
+    'osnet_x2_0': osnet_x2_0,
     'osnet_x1_0': osnet_x1_0,
     'osnet_x0_75': osnet_x0_75,
     'osnet_x0_5': osnet_x0_5,

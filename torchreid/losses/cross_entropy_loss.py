@@ -42,8 +42,11 @@ class CrossEntropyLoss(nn.Module):
                 Each position contains the label index.
         """
         log_probs = self.logsoftmax(inputs)
-        zeros = torch.zeros(log_probs.size())
-        targets = zeros.scatter_(1, targets.unsqueeze(1).data.cpu(), 1)
+        try:
+            targets = torch.zeros(log_probs.size()).scatter_(1, targets.unsqueeze(1).data.cpu(), 1)
+        except:
+            print("data have some problem, skip this train")
+            return None
         if self.use_gpu:
             targets = targets.cuda()
         targets = (1 - self.eps) * targets + self.eps / self.num_classes

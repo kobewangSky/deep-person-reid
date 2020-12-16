@@ -4,9 +4,14 @@ import numpy as np
 import os.path as osp
 import datetime
 from collections import OrderedDict
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+
 import torch
 from torch.nn import functional as F
 from torch.utils.tensorboard import SummaryWriter
+
+
 
 from torchreid import metrics
 from torchreid.utils import (
@@ -243,6 +248,8 @@ class Engine(object):
         for self.batch_idx, data in enumerate(self.train_loader):
             data_time.update(time.time() - end)
             loss_summary = self.forward_backward(data)
+            if loss_summary == None:
+                continue
             batch_time.update(time.time() - end)
             losses.update(loss_summary)
 

@@ -84,7 +84,8 @@ class ImageSoftmaxEngine(Engine):
 
         outputs = self.model(imgs)
         loss = self.compute_loss(self.criterion, outputs, pids)
-
+        if loss == None:
+            return None
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()

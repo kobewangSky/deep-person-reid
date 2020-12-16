@@ -5,7 +5,7 @@ from torch import nn
 from torch.nn import functional as F
 
 __all__ = [
-    'osnet_x1_0', 'osnet_x0_75', 'osnet_x0_5', 'osnet_x0_25', 'osnet_ibn_x1_0'
+    'osnet_x2_0','osnet_x1_0', 'osnet_x0_75', 'osnet_x0_5', 'osnet_x0_25', 'osnet_ibn_x1_0', 'osnet_x1_5'
 ]
 
 pretrained_urls = {
@@ -519,6 +519,32 @@ def init_pretrained_weights(model, key=''):
 ##########
 # Instantiation
 ##########
+def osnet_x2_0(num_classes=1000, pretrained=True, loss='softmax', **kwargs):
+    # standard size (width x1.0)
+    model = OSNet(
+        num_classes,
+        blocks=[OSBlock, OSBlock, OSBlock],
+        layers=[2, 2, 2],
+        channels=[128, 512, 768, 1024],
+        loss=loss,
+        **kwargs
+    )
+    return model
+
+def osnet_x1_5(num_classes=1000, pretrained=True, loss='softmax', **kwargs):
+    # standard size (width x1.0)
+    model = OSNet(
+        num_classes,
+        blocks=[OSBlock, OSBlock, OSBlock, OSBlock],
+        layers=[2, 2, 2, 2],
+        channels=[64, 256, 384, 512, 1024],
+        loss=loss,
+        **kwargs
+    )
+    if pretrained:
+        init_pretrained_weights(model, key='osnet_x1_0')
+    return model
+
 def osnet_x1_0(num_classes=1000, pretrained=True, loss='softmax', **kwargs):
     # standard size (width x1.0)
     model = OSNet(
