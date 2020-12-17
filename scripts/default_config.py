@@ -9,7 +9,7 @@ def get_default_config():
     cfg.model.name = 'resnet50'
     cfg.model.pretrained = True # automatically load pretrained model weights if available
     cfg.model.load_weights = '' # path to model weights
-    cfg.model.resume = '/root/deep-person-reid/log/osnet_x1_0_market1501_softmax/model/model.pth.tar-110' # path to checkpoint for resume training
+    cfg.model.resume = '' # path to checkpoint for resume training
 
     # data
     cfg.data = CN()

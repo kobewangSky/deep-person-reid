@@ -211,7 +211,8 @@ class Engine(object):
                     use_metric_cuhk03=use_metric_cuhk03,
                     ranks=ranks
                 )
-                self.save_model(self.epoch, rank1, save_dir)
+            if (self.epoch+1) % 10 == 0:
+                self.save_model(self.epoch, 10, save_dir)
 
         if self.max_epoch > 0:
             print('=> Final test')

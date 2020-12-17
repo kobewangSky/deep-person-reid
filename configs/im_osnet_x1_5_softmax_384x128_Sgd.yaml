@@ -18,27 +18,27 @@ loss:
     label_smooth: True
 
 train:
-#  optim: 'sgd'
-#  lr: 0.065
-#  max_epoch: 350
-#  batch_size: 64
-#  fixbase_epoch: 10
-#  open_layers: ['classifier']
-#  lr_scheduler: 'single_step'
-#  stepsize: [150, 225, 300]
-  optim: 'amsgrad'
-  lr: 0.0015
-  max_epoch: 150
-  batch_size: 64
+  optim: 'sgd'
+  lr: 0.065
+  max_epoch: 350
+  batch_size: 900
   fixbase_epoch: 10
   open_layers: ['classifier']
   lr_scheduler: 'single_step'
-  stepsize: [60]
+  stepsize: [150, 225, 300]
+#  optim: 'amsgrad'
+#  lr: 0.0015
+#  max_epoch: 200
+#  batch_size: 900
+#  fixbase_epoch: 10
+#  open_layers: ['classifier']
+#  lr_scheduler: 'single_step'
+#  stepsize: [60, 150]
 
 test:
-  batch_size: 64
+  batch_size: 900
   dist_metric: 'euclidean'
   normalize_feature: False
   evaluate: False
-  eval_freq: 10
+  eval_freq: -1
   rerank: False

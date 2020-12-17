@@ -331,11 +331,20 @@ class OSNet(nn.Module):
             channels[3],
             reduce_spatial_size=False
         )
-        self.conv5 = Conv1x1(channels[3], channels[3])
+
+        self.conv5 = self._make_layer(
+            blocks[3],
+            layers[3],
+            channels[3],
+            channels[4],
+            reduce_spatial_size=False
+        )
+
+        self.conv6 = Conv1x1(channels[4], channels[4])
         self.global_avgpool = nn.AdaptiveAvgPool2d(1)
         # fully connected layer
         self.fc = self._construct_fc_layer(
-            self.feature_dim, channels[3], dropout_p=None
+            self.feature_dim, channels[4], dropout_p=None
         )
         # identity classification layer
         self.classifier = nn.Linear(self.feature_dim, num_classes)
@@ -417,6 +426,7 @@ class OSNet(nn.Module):
         x = self.conv3(x)
         x = self.conv4(x)
         x = self.conv5(x)
+        x = self.conv6(x)
         return x
 
     def forward(self, x, return_featuremaps=False):
@@ -526,6 +536,7 @@ def osnet_x2_0(num_classes=1000, pretrained=True, loss='softmax', **kwargs):
         blocks=[OSBlock, OSBlock, OSBlock],
         layers=[2, 2, 2],
         channels=[128, 512, 768, 1024],
+        feature_dim= 1024,
         loss=loss,
         **kwargs
     )
