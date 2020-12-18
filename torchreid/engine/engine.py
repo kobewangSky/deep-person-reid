@@ -5,7 +5,7 @@ import os.path as osp
 import datetime
 from collections import OrderedDict
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+#os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 import torch
 from torch.nn import functional as F

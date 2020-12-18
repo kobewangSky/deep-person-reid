@@ -4,8 +4,10 @@ model:
 
 data:
   type: 'image'
-  sources: ['reid-blackai-format']
-  targets: ['reid-blackai-format']
+#  sources: ['reid-blackai-format']
+#  targets: ['reid-blackai-format']
+  sources: ['market1501']
+  targets: ['market1501']
   height: 384
   width: 128
   combineall: False
@@ -21,7 +23,7 @@ train:
   optim: 'sgd'
   lr: 0.065
   max_epoch: 350
-  batch_size: 900
+  batch_size: 128
   fixbase_epoch: 10
   open_layers: ['classifier']
   lr_scheduler: 'single_step'
@@ -36,9 +38,9 @@ train:
 #  stepsize: [60, 150]
 
 test:
-  batch_size: 900
+  batch_size: 128
   dist_metric: 'euclidean'
   normalize_feature: False
   evaluate: False
-  eval_freq: -1
+  eval_freq: 10
   rerank: False
